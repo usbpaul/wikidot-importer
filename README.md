@@ -20,7 +20,7 @@ This application is run from the command line and takes the following arguments:
 A sample command line invocation for importing sources and files into a wikidot site at `http://hiddenmeanings.wikidot.com` would be:
 
 ```bash
-$ java -jar wikidot-importer.jar myobjectives rGta6Hw4fOYZFFm633I6rJjNRUb7hHt9 C:\Users\Henry\Documents\import-wikidot C:\Users\Henry\Documents\import-wikidot-files
+$ java -jar wikidot-importer.jar mysitename rGta6Hw4fOYZFFm633I6rJjNRUb7hHt9 C:\Users\Henry\Documents\import-wikidot C:\Users\Henry\Documents\import-wikidot-files
 ```
 
 ## The arguments
