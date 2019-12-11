@@ -1,14 +1,53 @@
 package nl.w4w.work.repository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 public class ImporterRepository {
 
-    private String sourceDirectory = null;
-    private String filesDirectory = null;
+    @Value("${sourcesDir}")
+    private String sourcesDir;
+    @Value("${filesDir}")
+    private String filesDir;
+
+    public List<String> getSources() {
+        return getDirectoryItemsWithFileFilterAndRenaming (
+                sourcesDir,
+                (f) -> {return f.getName().endsWith("txt");},
+                name -> name.replaceAll(".txt", "")
+        );
+    }
+
+    public Map<String, List<String>> getFiles(List<String> sources) {
+        File filesDirectory = new File(filesDir);
+        return sources.stream()
+        .filter(s -> {return new File(filesDirectory + "/" + s).isDirectory();})
+                .collect(Collectors.toMap(s->s, s->getDirectoryItemsWithFileFilterAndRenaming(
+                        filesDir + "/" + s,
+                        File::isFile,
+                        name -> name
+                )));
+    }
+
+    public List<String> getDirectoryItemsWithFileFilterAndRenaming(String directoryPath,
+                                                                   FileFilter filePredicate,
+                                                                   Function<String, String> renameMapping) {
+        File sourcesDirectory = new File(directoryPath);
+        return Arrays.stream(Objects.requireNonNull(sourcesDirectory.listFiles(
+                filePredicate
+                )
+        )).map(File::getName)
+                .map(renameMapping)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Reads the contents of a source into a {@link String}

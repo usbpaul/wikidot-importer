@@ -20,7 +20,7 @@ This application is run from the command line and takes the following arguments:
 A sample command line invocation for importing sources and files into a wikidot site at `http://hiddenmeanings.wikidot.com` would be:
 
 ```bash
-$ java -jar wikidot-importer.jar hiddenmeanings rGta6Hw4fOYZFFm633I6rJjNRUb7hHt9 C:\Users\Henry\Documents\import-wikidot C:\Users\Henry\Documents\import-wikidot-files
+$ java -jar wikidot-importer.jar myobjectives rGta6Hw4fOYZFFm633I6rJjNRUb7hHt9 C:\Users\Henry\Documents\import-wikidot C:\Users\Henry\Documents\import-wikidot-files
 ```
 
 ## The arguments
@@ -47,3 +47,9 @@ Files are attached to a page in Wikidot on a per-page basis. This means that if 
 ```
 
 then there should be a directory in the files directory called `str-015`, which contains the image file called `whole-human-brain-cerebral-cortex.png`.
+
+### Invocation
+
+```bash
+> java -jar .\target\wikidot-importer.jar --wikidotName=hiddenmeanings --apiKey=wZLbJqjtjjz6lrc2CLO8oKd8TAI7JFxS --sourcesDir=C:/Users/Paul/Documents/import-wikidot --filesDir=C:/Users/Paul/Documents/import-wikidot-files
+```

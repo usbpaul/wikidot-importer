@@ -1,9 +1,10 @@
-//package nl.w4w.work.transfer;
+//package wikidot.xmlrpc.importer;
 //
 //import org.apache.xmlrpc.XmlRpcException;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
-////import wikidot.xmlrpc.client.WikidotClient;
+//import sun.misc.BASE64Encoder;
+//import wikidot.xmlrpc.client.WikidotClient;
 //
 //import javax.imageio.ImageIO;
 //import java.awt.image.BufferedImage;
@@ -22,6 +23,9 @@
 //
 //    private static final int BUFFER_SIZE = 4096;
 //
+//    private WikidotClient wikidotClient;
+//    private File sourceDirectory;
+//    private File filesDirectory;
 //
 //    /**
 //     * Constructor of this class
@@ -139,6 +143,18 @@
 //        return filesHash;
 //    }
 //
+//    /**
+//     * Helper method for testing purposes.
+//     * It's hard to test code in which new objects are created.
+//     * See http://code.google.com/p/mockito/wiki/MockingObjectCreation
+//     *
+//     * @param path The path for which to create a file.
+//     * @return A new {@link File}.
+//     */
+//    protected File createFile(String path) {
+//        return new File(path);
+//    }
+//
 //    private boolean existsSubDirectory(File filesDirectory, String pageName) {
 //        boolean directoryFound = false;
 //        File[] filesSubDirectories = filesDirectory.listFiles(new FileFilter() {
@@ -154,4 +170,65 @@
 //        return directoryFound;
 //    }
 //
+//    private String getPageNameForTextFile(File textFile) {
+//        return textFile.getName().replace(".txt", "");
+//    }
+//
+//    /**
+//     * Reads the contents of a file into a {@link String}
+//     *
+//     * @param filePath The full path to the file.
+//     * @return A {@link String} representing the contents of the file.
+//     * @throws FileNotFoundException An exception that occurs when the file cannot be found.
+//     */
+//    String readFile(String filePath) throws FileNotFoundException {
+//        StringBuilder textBuilder = new StringBuilder();
+//        String newLine = System.getProperty("line.separator");
+//        Scanner scanner = new Scanner(new FileInputStream(filePath));
+//        try {
+//            while (scanner.hasNextLine()) {
+//                textBuilder.append(scanner.nextLine() + newLine);
+//            }
+//        } finally {
+//            scanner.close();
+//        }
+//        return textBuilder.toString();
+//    }
+//
+//    /**
+//     * Encodes an image to a string using base64 encoding.
+//     *
+//     * @param image The {@link BufferedImage} to encode
+//     * @param type A {@link String} representing the type of the image: jpg, bmp, png,...
+//     * @return The base64 encoded string
+//     */
+//    private String encodeToString(BufferedImage image, String type) {
+//        String imageString = null;
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//
+//        try {
+//            ImageIO.write(image, type, baos);
+//            byte[] imageBytes = baos.toByteArray();
+//
+//            BASE64Encoder encoder = new BASE64Encoder();
+//            imageString = encoder.encode(imageBytes);
+//
+//            baos.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return imageString;
+//    }
+//
+//    /**
+//     * Given the filename of an image file, returns the base64 encoded version as a {@link String}
+//     *
+//     * @param fileName The full path the image file to encode, as a {@link String}
+//     * @return A {@link String} representation of the image.
+//     * @throws IOException A possible exception when the image cannot be read.
+//     */
+//    String readImageIntoBase64String(String fileName) throws IOException {
+//        BufferedImage image = ImageIO.read(new File(fileName));
+//        return encodeToString(image, "png");
+//    }
 //}
