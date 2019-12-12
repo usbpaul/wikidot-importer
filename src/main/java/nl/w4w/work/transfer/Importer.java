@@ -111,7 +111,7 @@
 //                    for (File binaryFile:filesHash.get(pageName)) {
 //                        String base64Encoded = readImageIntoBase64String(binaryFile.getAbsolutePath());
 //                        LOG.debug("Attaching binary  [" + binaryFile.getName() + "] to ["  + pageName + "]");
-//                        wikidotClient.  addFile(getPageNameForTextFile(textFile), binaryFile.getName(), base64Encoded);
+//                        wikidotClient.addFile(getPageNameForTextFile(textFile), binaryFile.getName(), base64Encoded);
 //                    }
 //                }
 //            }

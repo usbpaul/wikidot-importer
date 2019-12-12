@@ -1,5 +1,8 @@
 package nl.w4w.work.client;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import nl.w4w.work.exception.AuthorizationException;
 import nl.w4w.work.exception.SiteNotExistsException;
 import nl.w4w.work.rpc.XmlRpcTypeNil;
@@ -8,8 +11,6 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,8 +25,10 @@ import java.util.Vector;
  *
  * @author Paul Bakker
  */
-@Component
 public class WikidotClient {
+
+    private String siteName;
+    private String apiKey;
 
     public static final String METHOD_PAGES_SELECT = "pages.select";
     public static final String METHOD_PAGES_GET_ONE = "pages.get_one";
@@ -38,19 +41,17 @@ public class WikidotClient {
     private static Logger LOG = LoggerFactory.getLogger(WikidotClient.class);
 
     private static final String SERVER_ENDPOINT = "https://www.wikidot.com/xml-rpc-api.php";
-    @Value("${wikidotName}")
-    private String siteName;
-    @Value("${apiKey}")
-    private String apiKey;
-
     XmlRpcClientConfigImpl config;
     XmlRpcClient client;
 
-    public WikidotClient() throws IOException {
+    public WikidotClient(String siteName, String apiKey) throws IOException {
 
+        this.siteName = siteName;
+        this.apiKey = apiKey;
         config = new XmlRpcClientConfigImpl();
         config.setServerURL(new URL(SERVER_ENDPOINT));
         config.setBasicUserName("btclient");
+//        config.setBasicUserName("btclient");
         config.setBasicPassword(this.apiKey);
         config.setEnabledForExtensions(true);
 
