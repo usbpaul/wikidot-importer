@@ -1,4 +1,4 @@
-    package nl.w4w.work.service;
+package nl.w4w.work.service;
 
 import nl.w4w.work.client.WikidotClient;
 import nl.w4w.work.repository.ImporterRepository;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +28,17 @@ public class ImporterService {
     private String filesDirectoryName;
 
     @Autowired
+    private final WikidotClient wikidotClient;
+    @Autowired
     private final ImporterRepository importerRepository;
 
-    public ImporterService(ImporterRepository importerRepository) throws IOException {
+    public ImporterService(WikidotClient wikidotClient, ImporterRepository importerRepository) throws IOException {
+        this.wikidotClient = wikidotClient;
         this.importerRepository = importerRepository;
     }
 
     public void importData() throws IOException, XmlRpcException {
+
         // Get list of source names as Strings
         List<String> sources = importerRepository.getSources();
         LOG.info("Need to import " + sources.size() + " files");
@@ -43,7 +46,6 @@ public class ImporterService {
         // Get lists of file names (binary attachments) as Strings mapped from each source name
         Map<String, List<String>> files = importerRepository.getFiles(sources);
         int count = 0;
-        WikidotClient wikidotClient = new WikidotClient(this.wikidotName, this.apiKey);
         for (String source : sources) {
             count++;
             String sourceContents = importerRepository.readSourceContents(source);

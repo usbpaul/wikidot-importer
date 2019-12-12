@@ -1,5 +1,6 @@
 package nl.w4w.work.client;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -25,10 +27,8 @@ import java.util.Vector;
  *
  * @author Paul Bakker
  */
-public class WikidotClient {
-
-    private String siteName;
-    private String apiKey;
+@Component
+public class WikidotClient implements InitializingBean {
 
     public static final String METHOD_PAGES_SELECT = "pages.select";
     public static final String METHOD_PAGES_GET_ONE = "pages.get_one";
@@ -40,20 +40,31 @@ public class WikidotClient {
 
     private static Logger LOG = LoggerFactory.getLogger(WikidotClient.class);
 
-    private static final String SERVER_ENDPOINT = "https://www.wikidot.com/xml-rpc-api.php";
+    @Value("${wikidotName}")
+    private String siteName;
+    @Value("${apiKey}")
+    private String apiKey;
+
+    @Value("${server.endpoint}")
+    private String serverEndpoint;
+    @Value("${basic.user.name}")
+    private String basicUserName;
+    @Value("${enabled.for.extensions}")
+    private boolean enabledForExtensions;
+
     XmlRpcClientConfigImpl config;
     XmlRpcClient client;
 
-    public WikidotClient(String siteName, String apiKey) throws IOException {
-
-        this.siteName = siteName;
-        this.apiKey = apiKey;
+    public void afterPropertiesSet() {
         config = new XmlRpcClientConfigImpl();
-        config.setServerURL(new URL(SERVER_ENDPOINT));
-        config.setBasicUserName("btclient");
-//        config.setBasicUserName("btclient");
+        try {
+            config.setServerURL(new URL(this.serverEndpoint));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        config.setBasicUserName(this.basicUserName);
         config.setBasicPassword(this.apiKey);
-        config.setEnabledForExtensions(true);
+        config.setEnabledForExtensions(enabledForExtensions);
 
         client = new XmlRpcClient();
         client.setTypeFactory(new XmlRpcTypeNil(client));
