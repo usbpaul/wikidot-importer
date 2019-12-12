@@ -46,3 +46,8 @@ Files are attached to a page in Wikidot on a per-page basis. This means that if 
 ```
 
 then there should be a directory in the files directory called `str-015`, which contains the image file called `whole-human-brain-cerebral-cortex.png`.
+
+## Building the application
+
+In a terminal, navigate to the root of the project and do `mvn clean package`.  
+The built application will be in target under the name `wikidot-importer.jar`. Use it as above in the sample command line invocation.  
