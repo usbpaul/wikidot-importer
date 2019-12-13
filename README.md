@@ -17,7 +17,7 @@ This application is ran from the command line and takes the following arguments:
 * A path to a directory containing the text files (sources) to be imported,
 * A path to a directory containing the binary files (files) to be imported.
 
-A sample command line invocation for importing sources and files into a wikidot site at `http://hiddenmeanings.wikidot.com` would be:
+A sample command line invocation for importing sources and files into a wikidot site at `http://mysitename.wikidot.com` would be:
 
 ```bash
 $ java -jar wikidot-importer.jar --wikidotName=mysitename --apiKey=rGta6Hw4fOYZFFm633I6rJjNRUb7hHt9 --sourcesDir=C:\Users\Henry\Documents\import-wikidot --filesDir=C:\Users\Henry\Documents\import-wikidot-files
